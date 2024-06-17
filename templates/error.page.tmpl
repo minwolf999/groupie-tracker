@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Error</title>
+    </head>
+
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            background-color:#bcd3df;
+        }
+        h1 {
+            font-size:100px;
+            color: red;
+        }
+    </style>
+
+    <body>
+        <h1>
+            {{ .Code }} - {{ .Msg }}<br />
+        </h1>
+        <a href="/">Return to homepage</a>
+    </body>
+</html>

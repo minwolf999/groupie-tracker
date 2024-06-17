@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./templates/style.css">
+        <title>Groupie Tracker</title>
+        <style>
+            body{
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    background-color:#bcd3df;
+}
+
+pre{
+    font-family: "Arial", sans-serif;
+    text-align: center;
+}
+
+.searchbar{
+    margin-left: -2000px;
+    float: right;
+}
+
+.submit{
+    text-align: center;
+    margin: -20px 0 0 0;
+}
+
+.up{
+    margin-top: 30px;
+}
+
+h4 {
+    text-align: left;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+}
+
+th, td {
+max-width: 300px;
+white-space: normal;
+word-wrap: break-word;
+padding: 8px;
+border: 1px solid #ddd;
+}
+
+img {
+max-width: 100%;
+height: auto;
+}
+        </style>
+    </head>
+
+    <body onload="Onload()">
+        <h1>Groupie Tracker</h1>
+        <h4>
+        <form method="post" action="/web" onchange="AfficheRange()">
+            <p>|&nbsp; Date of creation </p>
+            <p>From
+            <input style="margin-bottom: -5px;" name="Year" id="Year" type="range" step="1" value="1990" min="1955" max="2023">
+            <span id="AfficheValue">1990</span>
+            to
+            <input style="margin-bottom: -5px;" name="Yearlast" id="Yearlast" type="range" step="1" value="1990" min="1955" max="2023">
+            <span id="AfficheValue2">1990</span>
+            <input type="checkbox" name="Zero1" value="0" />
+            <labe>Use this filter ?</label><br>
+            </p>
+        
+            <p>|&nbsp; Concert locations </p>
+            Continent : 
+            <input type="checkbox" name="North-America" value="North-America" />
+            <label for="location">North-America</label>
+            <input type="checkbox" name="South-America" value="South-America" />
+            <label for="location">South-America</label>
+            <input type="checkbox" name="Europe" value="Europe" />
+            <label for="location">Europe</label>
+            <input type="checkbox" name="Middle-East" value="Middle-East" />
+            <label for="location">Middle-East</label>
+            <input type="checkbox" name="Asia" value="Asia" />
+            <label for="location">Asia</label>
+            <input type="checkbox" name="Oceania" value="Oceania" />
+            <label for="location">Oceania</label><br>
+            City and/or State :
+            <input type="text" id="ville" name="ville" placeholder="City, State"/>
+
+            <div class="searchbar">
+                Search Bar :
+                <input style="width: 500px;" type="text" list="programmingLanguages" name="searchbar"/>
+                <datalist id="programmingLanguages">
+                    {{range .MegaTableauJVscript.Truc}}
+                    <option value="{{.}}"></option>
+                    {{end}}
+                </datalist>
+            </div>
+
+            <div class="submit">
+                <input type="submit" value="Push">
+            </div>
+
+            <div class="up">
+                <p>|&nbsp; Release first album </p>
+                <p>
+                From
+                <input style="margin-bottom: -5px;" name="FirstAlbum" id="FirstAlbum" type="range" step="1" value="1990" min="1955" max="2023">
+                <span id="AfficheFirstAlbum">1990</span>
+                to
+                <input style="margin-bottom: -5px;" name="FirstAlbum2" id="FirstAlbum2" type="range" step="1" value="1990" min="1955" max="2023">
+                <span id="AfficheFirstAlbum2">1990</span>
+                <input type="checkbox" name="Zero2" value="0" />
+                <labe>Use this filter ?</label><br>
+                </p>
+
+                <p>|&nbsp; Number of members </p>
+                <p>
+                From
+                <input style="margin-bottom: -5px;" name="numberMumbers" id="numberMumbers" type="range" step="1" value="4" min="1" max="8">
+                <span id="AfficheNumberMumbers">4</span>
+                to
+                <input style="margin-bottom: -5px;" name="numberMumbers2" id="numberMumbers2" type="range" step="1" value="4" min="1" max="8">
+                <span id="AfficheNumberMumbers2">4</span>
+                <input type="checkbox" name="Zero3" value="0" />
+                <labe>Use this filter ?</label><br>
+                </p>
+            </div>
+            
+        </form>
+        </h4>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Members</th>
+                <th>CreationDate</th>
+                <th>FirstAlbum</th>
+                <th>Locations</th>
+                <th>ConcertDates</th>
+            </thead>
+            <tbody>
+                {{range .Artists}}
+                <tr>
+                    <td>{{.ID}}</td>
+                    <td><img src={{.Image}} /></td>
+                    <td>{{.Name}}</td>
+                    <td><pre>{{.MembersString}}</pre></td>
+                    <td>{{.CreationDate}}</td>
+                    <td>{{.FirstAlbum}}</td>
+                    <td>
+                        {{range .TabLocations}}
+
+                        {{.}} 
+                            <iframe style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDtamPNsxDrwU10R7dQlwA06jtrxSuiNLU&q={{.}}&zoom=9"></iframe>
+                            <br>
+                        {{end}}
+                    </td> 
+                    <td>{{.ConcertDates}}</td>
+                </tr>
+
+                {{
+                    end
+                }}
+
+            </div>
+
+            </tbody>
+        </table>
+    </body>
+</html>
+
+<script>
+    function AfficheRange() {
+     var R = document.getElementById("Year").value;
+     document.getElementById("AfficheValue").innerHTML = R ;
+
+     var R1 = document.getElementById("Yearlast").value;
+     document.getElementById("AfficheValue2").innerHTML = R1 ;
+
+     var Y = document.getElementById("FirstAlbum").value;
+     document.getElementById("AfficheFirstAlbum").innerHTML = Y ;
+
+     var Y1 = document.getElementById("FirstAlbum2").value;
+     document.getElementById("AfficheFirstAlbum2").innerHTML = Y1 ;
+
+     var U = document.getElementById("numberMumbers").value;
+     document.getElementById("AfficheNumberMumbers").innerHTML = U;
+
+     var U2 = document.getElementById("numberMumbers2").value;
+     document.getElementById("AfficheNumberMumbers2").innerHTML = U2;
+   }
+</script>
